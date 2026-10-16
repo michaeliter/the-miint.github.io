@@ -10,8 +10,10 @@ Built with [MkDocs](https://www.mkdocs.org/) +
 
 This repo holds the **site shell**: the landing page, the Qiita overview, the
 in-browser [Playground](https://the-miint.github.io/playground/) (DuckDB-Wasm
-plus the miint extension, in `docs/playground.md`), the theme, and the brand.
-It does **not** hold the duckdb-miint documentation.
+plus the miint extension, in `docs/playground.md`), the in-browser
+[RYpe human host filter](https://the-miint.github.io/rype/) (`docs/rype/`, see
+below), the theme, and the brand. It does **not** hold the duckdb-miint
+documentation.
 
 Each project's docs are the **single source of truth in that project's own
 repo**, beside the code they document. They are pulled in at build time, so the
@@ -103,6 +105,20 @@ needs a rebuild to pick up upstream doc changes. Two mechanisms:
 
 `SITE_DISPATCH_TOKEN` is a fine-grained PAT with **Contents: read** and
 **Metadata: read** on this repo. (Not yet wired up in duckdb-miint's CI.)
+
+## RYpe host filter (`docs/rype/`)
+
+`docs/rype/` is a self-contained static app (HTML, JS, and three wasm modules)
+that MkDocs copies verbatim to `/rype/`. It needs no build step here and no
+special headers (no SharedArrayBuffer), so GitHub Pages serves it as is. The
+reference index is fetched from `ftp.microbio.me/pub/rype/host-filter/v1/`,
+which serves CORS and Range headers, and is cached in the browser's private
+storage.
+
+The files are **built artifacts vendored from the app's repository**; do not
+edit them here. To update, rebuild there and copy its `web/` directory over
+`docs/rype/` (without `package.json`). The nav entry is an absolute URL because
+MkDocs nav items must otherwise be Markdown pages.
 
 ## Adding another project
 
