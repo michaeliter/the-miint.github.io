@@ -111,7 +111,9 @@ needs a rebuild to pick up upstream doc changes. Two mechanisms:
 `docs/rype/` is a self-contained static app (HTML, JS, and two wasm modules)
 that MkDocs copies verbatim to `/rype/`. It needs no build step here and no
 special headers (no SharedArrayBuffer), so GitHub Pages serves it as is. The
-reference index is fetched from `ftp.microbio.me/pub/rype/host-filter/v1/`,
+reference indexes (a RYpe human pangenome index built from the 94 HPRC release 1
+haplotype assemblies plus hg38 and T2T-CHM13 v2.0, and a T2T-CHM13 v2.0 minimap2
+index) are fetched from `ftp.microbio.me/pub/rype/host-filter/v1/`,
 which serves CORS and Range headers, and, with the user's consent, is cached in
 the browser's private storage.
 

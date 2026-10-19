@@ -55,7 +55,8 @@ hide:
 
     **Remove human reads from a FASTQ without the reads leaving your
     computer.** RYpe runs entirely in the browser: a k-mer screen against a
-    T2T-CHM13 v2.0 index, then a minimap2 pass over what survives. The index
+    human pangenome index (94 HPRC haplotypes, hg38, T2T-CHM13 v2.0), then a
+    minimap2 pass against T2T-CHM13 v2.0 over what survives. The index
     downloads once and stays in the browser.
 
     [:octicons-arrow-right-24: Open RYpe](https://the-miint.github.io/rype/)  ·  [:octicons-mark-github-16: Source](https://github.com/the-miint/RYpe)
