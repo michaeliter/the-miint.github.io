@@ -108,17 +108,41 @@ needs a rebuild to pick up upstream doc changes. Two mechanisms:
 
 ## RYpe host filter (`docs/rype/`)
 
-`docs/rype/` is a self-contained static app (HTML, JS, and three wasm modules)
+`docs/rype/` is a self-contained static app (HTML, JS, and two wasm modules)
 that MkDocs copies verbatim to `/rype/`. It needs no build step here and no
 special headers (no SharedArrayBuffer), so GitHub Pages serves it as is. The
 reference index is fetched from `ftp.microbio.me/pub/rype/host-filter/v1/`,
-which serves CORS and Range headers, and is cached in the browser's private
-storage.
+which serves CORS and Range headers, and, with the user's consent, is cached in
+the browser's private storage.
 
-The files are **built artifacts vendored from the app's repository**; do not
-edit them here. To update, rebuild there and copy its `web/` directory over
-`docs/rype/` (without `package.json`). The nav entry is an absolute URL because
-MkDocs nav items must otherwise be Markdown pages.
+The app's repository is **https://github.com/the-miint/rype-web**. The files
+here are built artifacts vendored from its `web/` directory; do not edit them
+here. What produces them:
+
+| File | Source | Built by |
+|---|---|---|
+| `rype_mask.{js,wasm}` | RYpe (submodule `third_party/RYpe`) + `src/mask.c`, `src/gz.c`, zlib | `build.sh` (cargo `wasm32-unknown-emscripten` + emcc) |
+| `mm_filter.{js,wasm}` | the-miint/minimap2 (submodule `third_party/minimap2`) + `src/mm.c`, zlib | `build_mm2.sh` + `build.sh` (emcc) |
+| `vendor/anime.umd.js` | anime.js 4.5.0, unminified UMD bundle from npm | copied |
+| `THIRD_PARTY_LICENSES.txt` | licenses of everything above | copied by `build.sh` from rype-web's `THIRD_PARTY_LICENSES.md` |
+| everything else | rype-web `web/` | hand-written |
+
+The `.js` files next to the `.wasm` files are Emscripten's generated runtime
+glue, not hand-written code.
+
+Requirements for users: desktop Chrome or Chromium Edge (Firefox and Safari
+untested), about 16 GB of RAM for the default 4 + 4 workers, and about 15 GB of
+free browser storage if the index is kept (1.8 GB RYpe index plus 9 GB minimap2
+index, downloaded once); declining the download streams the index each run.
+
+To update: in a rype-web checkout run `bash build.sh` and `npm test`, then
+
+```bash
+rsync -a --delete --exclude package.json <rype-web>/web/ docs/rype/
+```
+
+The nav entry is an absolute URL because MkDocs nav items must otherwise be
+Markdown pages.
 
 ## Adding another project
 
