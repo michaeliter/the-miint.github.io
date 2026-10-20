@@ -55,7 +55,8 @@ hide:
 
     **Remove human reads from a FASTQ without the reads leaving your
     computer.** RYpe runs entirely in the browser: a k-mer screen against a
-    human pangenome index (94 HPRC haplotypes, hg38, T2T-CHM13 v2.0), then a
+    human pangenome index (94 HPRC haplotypes, hg38, T2T-CHM13 v2.0, GENCODE
+    v47 transcripts), then a
     minimap2 pass against T2T-CHM13 v2.0 over what survives. The index
     downloads once and stays in the browser.
 
